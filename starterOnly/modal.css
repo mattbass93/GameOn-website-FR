@@ -45,7 +45,7 @@ img {
 }
 
 .header-logo > img {
-  width: 100%
+  width: 100%;
 }
 
 .main-navbar {
@@ -88,7 +88,6 @@ main {
   font-size: 130%;
   font-weight: bolder;
   color: black;
-  padding-top: 0.5vw;
   padding-left: 2vw;
   padding-right: 2vw;
   margin: 1px 20px 15px;
@@ -140,33 +139,21 @@ main {
   font-size: 16px;
 }
 
-.bground {
+.background_modal, .background_confirmation_page {
   display: none;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
-  height: 100%;
+  height: inherit;
   width: 100%;
   overflow: auto;
   background-color: rgba(26, 39, 156, 0.4);
 }
 
-.bground2 {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  background-color: rgba(26, 39, 156, 0.4);
-}
-
-.content,
-.content2 {
-  margin: 5% auto;
+.content_modal,
+.content_confirmation_page {
+  margin: 17% auto;
   width: 100%;
   max-width: 500px;
   animation-name: modalopen;
@@ -180,7 +167,7 @@ main {
 }
 
 .modal-body,
-.modal-body2 {
+.modal-body_confirmation_page {
   padding: 15px 8%;
   margin: 15px auto;
 }
@@ -445,7 +432,7 @@ input[data-error]::after {
   z-index: 1;
 }
 .hero-headline {
-  font-size: 6rem;
+  font-size: 5rem;
   font-weight: normal;
   white-space: nowrap;
 }
@@ -512,12 +499,11 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
- /* align-items: center; */
 }
 
 .confirmation_page > p {
   color: white;
-  font-size: 2.4em;
+  font-size: 1.4em;
   text-align: center;
   margin: auto;
 }
@@ -546,45 +532,31 @@ footer {
 
 
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 930px) {
+  .content_modal, .content_confirmation_page {
+    margin: 32% auto;
+  }
+
   body {
     overflow-x: hidden;
-  }
-
-
-  .hero-headline {
-    font-size: 9vw;
-  }
-
-  .hero-text {
-    width: 190%;
+    justify-content: flex-start;
   }
 
   .btn-signup {
     width: 140%;
   }
 
-  .copyrights {
-    text-align: center;
-  }
-} 
-
-
-
-
-@media screen and (max-width: 850px) {
-
-
   .hero-section {
     display: block;
     box-shadow: unset;
+    min-height: inherit;
   }
+  
   .hero-content {
     background: #fff;
     color: #000;
     padding: 0px;
   }
-
 
   .hero-content::after {
     content: unset;
@@ -599,7 +571,7 @@ footer {
   .hero-text {
     width: unset;
     font-size: 3vw;
-    margin-top: 30px;
+    margin-top: 10px;
   }
   .hero-img img {
     border-radius: 10px;
@@ -611,8 +583,8 @@ footer {
     padding: 12px 35px;
   }
   .copyrights {
-    margin-top: 50px;
     text-align: center;
+    margin: 0;
   }
   
 /*Before click*/
@@ -635,13 +607,8 @@ footer {
   }
 
 
-  .main-navbar {
-    justify-content: flex-end;
-    margin: 20px auto;
-  }
-
   .topnav {
-    margin-bottom: 15px;
+    margin-bottom: 0;
     margin-left: auto;
     margin-right: auto;
     max-height: 50px;
@@ -652,109 +619,111 @@ footer {
     max-height: none;
   }
 
-  .topnav.responsive .main-navbar {
+  .main-navbar {
+    margin: 20px auto 0 auto;
     width: 100%;
     flex-wrap: wrap;
-    
+    justify-content: space-around;
   }
-
-
 
   .topnav.responsive a {
     display: block;
   }
 
-  .topnav.responsive > .main-navbar {
-    justify-content: space-around;
-    margin: 20px auto 20px auto;
-  }
-
   .btn-signup {
     width: 50%;
-  }
-
-  
+  } 
 
 }
 
 
-@media screen and (max-width: 650px) {
+ @media screen and (max-width: 650px) {
 
   .link {
     width: 45%;
   }
-
-  .hero-headline {
-    font-size: 3rem;
-  }
-
-  .hero-text {
-    margin-top: 20px;
-  }
-
-  .hero-section {
-    margin-bottom: 0px;
-  }
-
-  main {
-    height: 750px;
-  }
-
-  .btn-signup {
-    margin-bottom: 32px;
-  }
-
-  .copyrights {
-    margin-top: 30px;
-  }
-
 } 
 
 
 
 @media screen and (max-width: 480px) {
-  .link {
+   .link {
     width: 75%;
   }
 
-  .topnav.responsive .main-navbar {
-    width: 100%;
+  .main-navbar {
     flex-direction: column;
     align-items: center;
     gap: 0 1em;
   }
-
-  .hero-headline {
-    font-size: 2rem;
-  }
- 
 }
+
 
 @media screen and (max-width: 500px) {
 
-.bground, .bground2 {
+.topnav {
+  margin-bottom: 15px;
+}
+
+.btn-submit {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+.background_modal, .background_confirmation_page {
   background-color: rgba(26, 39, 156, 0);
-  margin-top: 60px;
+  margin-top: 80px;
   margin-bottom: 0;
+  position: absolute;
+  height: inherit;
+}
+
+.content_modal, .content_confirmation_page {
+  margin-top: 0;
+  margin-bottom: 0;
+  height: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .header-logo {
-  width: 40%;
+  width: 155px;
 }
 
+.btn-signup {
+  width: 70%;
+}
 
-#formData6 {
+footer {
+  margin: 0;
+}
+
+ #div_radio_buttons {
   display: flex;
   flex-wrap: wrap;
   margin: 10px auto;
 }
 
-#formData6 > label {
+ #div_radio_buttons > label {
   width: 30%
 }
 
-.copyrights {
-  margin: 0;
+.checkbox-label,
+.checkbox2-label {
+  position: relative;
+  margin-left: 36px;
+  font-size: 12px;
+  font-weight: normal;
 }
 
+#checkboxesSpan {
+  /* text-wrap: nowrap; */
+  text-align: center;
 }
+
+.labelCheckboxNewsletter {
+  margin-top: 15px;
+}
+
+} 

@@ -1,6 +1,6 @@
 // DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalbg2 = document.querySelector(".bground2");
+const backgroundModal = document.querySelector(".background_modal");
+const backgroundConfirmationPage = document.querySelector(".background_confirmation_page");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const modalBody = document.querySelector('.modal-body')
 const formData = document.querySelectorAll(".formData");
@@ -9,7 +9,7 @@ const confirmationPage = document.querySelector('.confirmation_page')
 const close_confirmation_page1 = document.querySelector('.close_confirmation_page')
 const close_confirmation_page2 = document.querySelector('.button_confirmation_page')
 const form = document.querySelector('form')
-const formData6 = document.getElementById('formData6')
+const divRadioButtons = document.getElementById('div_radio_buttons')
 const portland = document.getElementById('portland')
 
 
@@ -21,7 +21,7 @@ let birthdate = document.getElementById("birthdate")
 let quantityOfTournaments = document.getElementById("quantity")
 let checkboxCGU = document.getElementById("checkboxCGU")
 let checkboxNewsletter = document.getElementById("checkboxNewsletter")
-const checkboxOneLabel = document.getElementById("checkbox_one_label")
+let checkboxOneLabel = document.getElementById("checkbox_one_label")
 
 
 let textControls = document.querySelectorAll('.text-control')
@@ -37,29 +37,22 @@ function editNav() {
   } else {
     x.className = "topnav";
   }
-
-  let icon = document.getElementById('icon')
-  if(icon.className === "icon") {
-    icon.className += " icon_responsive"
-  } else {
-    icon.className = "icon"
-  }
 }
 
-// launch modal form
+// launch and close modal form
 function launchModal() {
-  modalbg.style.display = "block";
+  backgroundModal.style.display = "block";
 }
 function closeModal() {
-  modalbg.style.display = "none";
+  backgroundModal.style.display = "none";
 }
 
-// Launch Confirmation page
+// launch and close Confirmation page
 function launchConfirmationPage() {
-  modalbg2.style.display = "block";
+  backgroundConfirmationPage.style.display = "block";
 }
 function closeConfirmationPage() {
-  modalbg2.style.display = "none";
+  backgroundConfirmationPage.style.display = "none";
 }
 
 //Check form
@@ -105,11 +98,6 @@ function addSpanError(tag, id, errorMessage) {
      return false
     }
 }
-
-
-
-
-
 
 function checkField(tag, regex, errorId, errorMessage) {
   checkIfExistingErrorMessage(errorId);
@@ -172,11 +160,11 @@ function checkTournamentLocations(errorId, errorMessage) {
   tournamentLocations = [...tournamentLocations]
   checkIfExistingErrorMessage(errorId);
   if (tournamentLocations.some(location => location.checked)) {
-    formData6.classList.remove("error")
+    divRadioButtons.classList.remove("error")
     return true
   } else {
-    addErrorClass(formData6)    
-    addSpanError(formData6, errorId, errorMessage);
+    addErrorClass(divRadioButtons)    
+    addSpanError(divRadioButtons, errorId, errorMessage);
     return false
   }
 } 
@@ -186,9 +174,12 @@ function checkCheckboxes(errorId, errorMessage) {
   // checkboxes = [...checkboxes]
   checkIfExistingErrorMessage(errorId);
 
+
   for(let i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[0].checked) {
-      console.log("checkbox1 ok")
+    if (checkboxes[0].checked && checkboxes[1]) {
+      return true
+    }    
+    else if (checkboxes[0].checked) {
       return true
     }
     else {
@@ -205,50 +196,32 @@ function checkCheckboxes(errorId, errorMessage) {
 
 
 
-let isFirstNameValid = false
-let isLastNameValid = false
-let isEmailValid = false
-let isBirthdateValid = false
-let isQuantityOfTournamentsValid = false
-let isTournamentsLocationsValid = false
-let isCheckboxesValid = false
-
-let fieldsValidation = [isFirstNameValid, isLastNameValid, isEmailValid, isBirthdateValid, isQuantityOfTournamentsValid, isTournamentsLocationsValid, isCheckboxesValid]
-
-
 firstName.addEventListener('change', () => {
-isFirstNameValid = checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide");
- console.log(isFirstNameValid)
+checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide");
 })
 
 lastName.addEventListener('change', () => {
- isLastNameValid = checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide");
- console.log(isFirstNameValid)
-
+checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide");
 })
 
 email.addEventListener('change', () => {
- isEmailValid = checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide");
+checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide");
 })
 
 birthdate.addEventListener('change', () => {
- isBirthdateValid = checkBirthdateField(birthdate, 'birthdateSpan');
+checkBirthdateField(birthdate, 'birthdateSpan');
 })
 
 quantityOfTournaments.addEventListener("change", () => {
- isQuantityOfTournamentsValid = checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide");
+checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide");
 }) 
 
+let city = ""
 
 tournamentLocations.forEach(location => {
   location.addEventListener('change', () => {
-   isTournamentsLocationsValid = checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi');
-  });
-}); 
-
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('change', () => {
-   isCheckboxesValid = checkCheckboxes('checkboxesSpan', 'Veuillez accpter les conditions d`\'utilisations');
+checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi');
+city = location.value
   });
 }); 
 
@@ -271,68 +244,36 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log("prevent default ok")
 
+  checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide"),
+  checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide"),
+  checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide"), checkBirthdateField(birthdate, 'birthdateSpan'),
+  checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide"), checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi'),
+  checkCheckboxes('checkboxesSpan', 'Veuillez accepter les conditions d`\'utilisations')
 
-  if (isFirstNameValid && isLastNameValid && isEmailValid && isBirthdateValid && isQuantityOfTournamentsValid && isTournamentsLocationsValid && isCheckboxesValid) {
+  if (checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide") &&
+      checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide") && 
+      checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide") && 
+      checkBirthdateField(birthdate, 'birthdateSpan') && 
+      checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide") && 
+      checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi') &&
+      checkCheckboxes('checkboxesSpan', 'Veuillez accpter les conditions d`\'utilisations')) {
+    console.log(`Prénom: ${firstName.value}`)
+    console.log(`Nom: ${lastName.value}`)
+    console.log(`E-mail: ${email.value}`)
+    console.log(`Date de naissance: ${birthdate.value}`)
+    console.log(`A déja participé à ${quantityOfTournaments.value} tournoi(s)`)
+    console.log(`Souhaite participer au tournoi de ${city}`)
+    console.log(`Conditions d'utilisation acceptées`)
+    if (checkboxes[1].checked) {
+      console.log(`Souhaite être abonné à la newsletter`)
+    }    
     closeModal();
     launchConfirmationPage();
   } else {
     console.log("error submit")
   } 
  
-  
 })
-
-/*
-  checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide");
-  checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide");
-  checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide");
-  checkBirthdateField(birthdate, 'birthdateSpan') ;
-  checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide");
-  checkTournamentLocations(tournamentLocations, 'tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi');
-  checkCheckboxes(checkboxes, "checkboxesId", "Veuillez accepter les conditions d'utilisations")*/
-
-/*
-  closeModal();
-  launchConfirmationPage(); */
-
-
-/*
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  let allChecksPassed = true;
-
-  for (let i = 0; i < textControls.length; i++) {
-    if (!checkField(textControls[i])) {
-       allChecksPassed = false;
-    }
-  }
-
-  if (!checkFirstName(firstName) || !checkLastName(lastName) || !checkBirthdate(birthdate) || !checkEmail(email) || !checkQuantityOfTournaments(quantityOfTournaments) || !checktournamentLocations(tournamentLocations)) {
-    allChecksPassed = false;
-  }
-  
-  if (allChecksPassed) {
-    closeModal();
-    launchConfirmationPage();
-  }
-  
-
-  
-}) */
-
-/*
-  if (checkFirstName(firstName) && checkLastName(lastName) && checkBirthdate(birthdate) && checkEmail(email) && checkQuantityOfTournaments(quantityOfTournaments) &&  checkCheckboxes(checkboxes)) {
-    closeModal()
-    launchConfirmationPage();
-  }  
-  
-    else {
-      console.log('error')
-    } */
-
-
-
-
 
 
 
