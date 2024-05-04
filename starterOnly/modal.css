@@ -490,7 +490,7 @@ footer {
 
 .error_message {
   color: #FE142F;
-  font-size: 13px;
+  font-size: 18px;
 }
 
 .confirmation_page {
@@ -687,6 +687,10 @@ footer {
   border-bottom-right-radius: 0;
 }
 
+.confirmation_page {
+  margin-top: 78px;
+}
+
 .header-logo {
   width: 155px;
 }
@@ -724,6 +728,10 @@ footer {
 
 .labelCheckboxNewsletter {
   margin-top: 15px;
+}
+
+.error_message {
+  font-size: 16px;
 }
 
 } 

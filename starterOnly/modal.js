@@ -11,6 +11,9 @@ const close_confirmation_page2 = document.querySelector('.button_confirmation_pa
 const form = document.querySelector('form')
 const divRadioButtons = document.getElementById('div_radio_buttons')
 const portland = document.getElementById('portland')
+const heroSection = document.querySelector('.hero-section')
+const footer = document.querySelector('footer')
+const btnSubmit = document.querySelector(".btn-submit")
 
 
 /*Retrieving the different fields of the form*/
@@ -42,17 +45,22 @@ function editNav() {
 // launch and close modal form
 function launchModal() {
   backgroundModal.style.display = "block";
+
 }
 function closeModal() {
   backgroundModal.style.display = "none";
+
 }
 
 // launch and close Confirmation page
 function launchConfirmationPage() {
   backgroundConfirmationPage.style.display = "block";
+
 }
 function closeConfirmationPage() {
   backgroundConfirmationPage.style.display = "none";
+
+
 }
 
 //Check form
@@ -60,20 +68,8 @@ function closeConfirmationPage() {
 function checkIfExistingErrorMessage(errorId) {
   const existingErrorMessage = document.getElementById(errorId);
   if (existingErrorMessage) {
-     existingErrorMessage.remove();
-     return true
-  }
-}
-
-function checkRegExp(tag, regex) {
-  let regExp = new RegExp(regex);
-
-  if (regExp.test(tag.value) && tag.value.length >= 2) {
-    addValidClass(tag)
+    existingErrorMessage.remove();
     return true
-  } else {
-    addErrorClass(tag)
-    return false
   }
 }
 
@@ -89,69 +85,82 @@ function addErrorClass(tag) {
 
 
 function addSpanError(tag, id, errorMessage) {
-    if(tag.classList.contains("error")) {
-     const newSpan = document.createElement("span");
-     newSpan.textContent = errorMessage;
-     newSpan.id = id
-     newSpan.classList.add("error_message");
-     tag.insertAdjacentElement('afterend', newSpan);
-     return false
-    }
+  if (tag.classList.contains("error")) {
+    const newSpan = document.createElement("span");
+    newSpan.textContent = errorMessage;
+    newSpan.id = id
+    newSpan.classList.add("error_message");
+    tag.insertAdjacentElement('afterend', newSpan);
+    return false
+  }
+}
+
+
+function checkRegExp(tag, regex) {
+  let regExp = new RegExp(regex);
+
+  if (regExp.test(tag.value) && tag.value.length >= 2) {
+    addValidClass(tag)
+    return true
+  } else {
+    addErrorClass(tag)
+    return false
+  }
 }
 
 function checkField(tag, regex, errorId, errorMessage) {
   checkIfExistingErrorMessage(errorId);
 
   if (!checkRegExp(tag, regex)) {
-    // Si la regex ne correspond pas, ajout du message d'erreur
     addSpanError(tag, errorId, errorMessage);
     return false
- } else {
-  return true
- }  
+  } else {
+    return true
+  }
 }
 
 
 function checkBirthdateField(tag, errorId) {
   checkIfExistingErrorMessage(errorId);
- 
-  // Vérifiez si le champ de date de naissance est vide
-  if(tag.value === "") {
-     addErrorClass(tag);
-     addSpanError(tag, errorId, "Veuillez indiquer vôtre âge");
+
+  if (tag.value === "") {
+    addErrorClass(tag);
+    addSpanError(tag, errorId, "Veuillez indiquer vôtre âge");
   } else {
-     // Convertissez la valeur du champ en un objet Date
-     const birthdate = new Date(tag.value);
-     const today = new Date();
-     let age = today.getFullYear() - birthdate.getFullYear();
-     const month = today.getMonth() - birthdate.getMonth();
- 
-     // Si le mois actuel est inférieur au mois de naissance, soustrayez 1 de l'âge
-     if (month < 0 || (month === 0 && today.getDate() < birthdate.getDate())) {
-       age--;
-     }
- 
-     // Vérifiez si l'utilisateur a au moins 18 ans
-     if (age >= 18) {
-       addValidClass(tag);
-       return true
-     } else {
-       addErrorClass(tag);
-       addSpanError(tag, errorId, "Vous devez avoir 18 ans pour participer");
-       return false
-     }
+    const birthdate = new Date(tag.value);
+    const today = new Date();
+    let age = today.getFullYear() - birthdate.getFullYear();
+    const month = today.getMonth() - birthdate.getMonth();
+
+    // If current month is less than birth month, subtract 1 from age
+    if (month < 0 || (month === 0 && today.getDate() < birthdate.getDate())) {
+      age--;
+    }
+
+
+    if (age >= 18) {
+      addValidClass(tag);
+      return true
+    } else {
+      addErrorClass(tag);
+      addSpanError(tag, errorId, "Vous devez avoir 18 ans pour participer");
+      return false
+    }
   }
 }
 
 function checkQuantityOfTournamentsField(tag, errorId, errorMessage) {
   checkIfExistingErrorMessage(errorId);
 
-  if(tag.value === "" || tag.value < 0 || tag.value > 99) {
+  let roundedValue = Math.round(parseFloat(tag.value));
+
+  if (isNaN(roundedValue) || tag.value < 0 || tag.value > 99) {
     addErrorClass(tag);
     addSpanError(tag, errorId, errorMessage);
     return false
   } else {
     addValidClass(tag)
+    tag.value = roundedValue
     return true
   }
 }
@@ -163,33 +172,29 @@ function checkTournamentLocations(errorId, errorMessage) {
     divRadioButtons.classList.remove("error")
     return true
   } else {
-    addErrorClass(divRadioButtons)    
+    addErrorClass(divRadioButtons)
     addSpanError(divRadioButtons, errorId, errorMessage);
     return false
   }
-} 
+}
 
 
 function checkCheckboxes(errorId, errorMessage) {
-  // checkboxes = [...checkboxes]
   checkIfExistingErrorMessage(errorId);
 
 
-  for(let i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[0].checked && checkboxes[1]) {
-      return true
-    }    
-    else if (checkboxes[0].checked) {
+  for (let i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[0].checked) {
       return true
     }
     else {
-      addErrorClass(checkboxes[1])    
-      addSpanError(checkboxes[1], errorId, errorMessage);
+      addErrorClass(checkboxOneLabel)
+      addSpanError(checkboxOneLabel, errorId, errorMessage);
       return false
     }
-   }
-   
-} 
+  }
+
+}
 
 
 /*LISTENERS*/
@@ -197,33 +202,33 @@ function checkCheckboxes(errorId, errorMessage) {
 
 
 firstName.addEventListener('change', () => {
-checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide");
+  checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide");
 })
 
 lastName.addEventListener('change', () => {
-checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide");
+  checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide");
 })
 
 email.addEventListener('change', () => {
-checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide");
+  checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide");
 })
 
 birthdate.addEventListener('change', () => {
-checkBirthdateField(birthdate, 'birthdateSpan');
+  checkBirthdateField(birthdate, 'birthdateSpan');
 })
 
 quantityOfTournaments.addEventListener("change", () => {
-checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide");
-}) 
+  checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide");
+})
 
 let city = ""
 
 tournamentLocations.forEach(location => {
   location.addEventListener('change', () => {
-checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi');
-city = location.value
+    checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi');
+    city = location.value
   });
-}); 
+});
 
 
 
@@ -245,18 +250,20 @@ form.addEventListener("submit", (event) => {
   console.log("prevent default ok")
 
   checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide"),
-  checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide"),
-  checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide"), checkBirthdateField(birthdate, 'birthdateSpan'),
-  checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide"), checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi'),
-  checkCheckboxes('checkboxesSpan', 'Veuillez accepter les conditions d`\'utilisations')
+    checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide"),
+    checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide"),
+    checkBirthdateField(birthdate, 'birthdateSpan'),
+    checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide"),
+    checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi'),
+    checkCheckboxes('checkboxesSpan', 'Veuillez accepter les conditions d`\'utilisations')
 
   if (checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide") &&
-      checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide") && 
-      checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide") && 
-      checkBirthdateField(birthdate, 'birthdateSpan') && 
-      checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide") && 
-      checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi') &&
-      checkCheckboxes('checkboxesSpan', 'Veuillez accpter les conditions d`\'utilisations')) {
+    checkField(lastName, "^[A-Z][a-z\\-' ]+$", 'lastNameSpan', "Veuillez indiquer un nom valide") &&
+    checkField(email, "[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+", 'emailSpan', "Veuillez indiquer une adresse mail valide") &&
+    checkBirthdateField(birthdate, 'birthdateSpan') &&
+    checkQuantityOfTournamentsField(quantityOfTournaments, 'quantityOfTournamentsSpan', "Veuillez indiquer un chiffre valide") &&
+    checkTournamentLocations('tournamentLocationsSpan', 'Veuillez selectionner au moins un tournoi') &&
+    checkCheckboxes('checkboxesSpan', 'Veuillez accepter les conditions d`\'utilisations')) {
     console.log(`Prénom: ${firstName.value}`)
     console.log(`Nom: ${lastName.value}`)
     console.log(`E-mail: ${email.value}`)
@@ -266,13 +273,13 @@ form.addEventListener("submit", (event) => {
     console.log(`Conditions d'utilisation acceptées`)
     if (checkboxes[1].checked) {
       console.log(`Souhaite être abonné à la newsletter`)
-    }    
+    }
     closeModal();
     launchConfirmationPage();
   } else {
     console.log("error submit")
-  } 
- 
+  }
+
 })
 
 
