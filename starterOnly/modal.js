@@ -8,28 +8,20 @@ const closeButton = document.getElementById("close")
 const confirmationPage = document.querySelector('.confirmation_page')
 const close_confirmation_page1 = document.querySelector('.close_confirmation_page')
 const close_confirmation_page2 = document.querySelector('.button_confirmation_page')
-const form = document.querySelector('form')
-const divRadioButtons = document.getElementById('div_radio_buttons')
-const portland = document.getElementById('portland')
-const heroSection = document.querySelector('.hero-section')
-const footer = document.querySelector('footer')
-const btnSubmit = document.querySelector(".btn-submit")
-
 
 /*Retrieving the different fields of the form*/
+const form = document.querySelector('form')
+
 let firstName = document.getElementById("firstname")
 let lastName = document.getElementById("lastname")
 let email = document.getElementById("email")
 let birthdate = document.getElementById("birthdate")
 let quantityOfTournaments = document.getElementById("quantity")
-let checkboxCGU = document.getElementById("checkboxCGU")
-let checkboxNewsletter = document.getElementById("checkboxNewsletter")
-let checkboxOneLabel = document.getElementById("checkbox_one_label")
-
-
-let textControls = document.querySelectorAll('.text-control')
 let tournamentLocations = document.querySelectorAll('input[name="location"]')
 let checkboxes = document.querySelectorAll('input[type="checkbox"]')
+
+const checkboxOneLabel = document.getElementById("checkbox_one_label")
+const divRadioButtons = document.getElementById('div_radio_buttons')
 
 /*FUNCTIONS*/
 // Modal settings and responsive
@@ -55,12 +47,9 @@ function closeModal() {
 // launch and close Confirmation page
 function launchConfirmationPage() {
   backgroundConfirmationPage.style.display = "block";
-
 }
 function closeConfirmationPage() {
   backgroundConfirmationPage.style.display = "none";
-
-
 }
 
 //Check form
@@ -198,9 +187,6 @@ function checkCheckboxes(errorId, errorMessage) {
 
 
 /*LISTENERS*/
-
-
-
 firstName.addEventListener('change', () => {
   checkField(firstName, "^[A-Z][A-Za-z\\é\\è\\ê\\-]+$", 'firstNameSpan', "Veuillez indiquer un prénom valide");
 })
