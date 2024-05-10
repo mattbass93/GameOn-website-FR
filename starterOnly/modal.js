@@ -230,7 +230,11 @@ tournamentLocations.forEach(location => {
   });
 });
 
-
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', () => {
+    checkCheckboxes('checkboxesSpan', 'Veuillez accepter les conditions d`\'utilisations')
+  })
+})
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
